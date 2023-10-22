@@ -26,6 +26,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "drf_spectacular",
+    "drf_spectacular",
     "rest_framework",
 ]
 
