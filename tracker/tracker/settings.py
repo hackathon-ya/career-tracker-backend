@@ -26,7 +26,6 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "drf_spectacular",
-    "drf_spectacular",
     "rest_framework",
 ]
 
@@ -133,6 +132,5 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "COMPONENT_SPLIT_REQUEST": True,
 }
-
 
 AUTH_USER_MODEL = "users.Recruiter"
