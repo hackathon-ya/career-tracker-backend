@@ -1,0 +1,35 @@
+version: "3.9"
+
+volumes:
+    postgres_data:
+    static_volume:
+    media_volume:
+
+services:
+    db:
+        image: postgres:15.3
+        container_name: careertracker_db
+        restart: always
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        env_file:
+            -   .env
+        ports:
+            -   "${POSTGRES_PORT}:5432"
+
+    backend:
+        build: .
+        container_name: careertracker_backend
+        restart: always
+        command: >
+            sh -c "cd tracker &&
+            python manage.py migrate &&
+            python manage.py runserver 0.0.0.0:8000"
+
+        volumes:
+            - static_volume:/app/staticfiles
+            - media_volume:/app/mediafiles
+        env_file:
+            -   .env
+        depends_on:
+            - db
