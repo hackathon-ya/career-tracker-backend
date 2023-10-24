@@ -13,13 +13,13 @@ class Vacancy(models.Model):
         verbose_name="Рекрутер",
     )
 
-    job_title = models.CharField(max_length=200)
-    company_name = models.CharField(max_length=200)
+    job_title = models.CharField(max_length=200, verbose_name="Название вакансии")
+    company_name = models.CharField(max_length=200, verbose_name="Название компании")
     city = models.ForeignKey(
         City, on_delete=models.SET_NULL, null=True, verbose_name="Город"
     )
-    min_salary = models.IntegerField()
-    max_salary = models.IntegerField()
+    min_salary = models.IntegerField(verbose_name="Зарплата от")
+    max_salary = models.IntegerField(verbose_name="Зарплата до")
     skills = models.ManyToManyField(
         Skills, related_name="vacancies", verbose_name="Навыки"
     )
