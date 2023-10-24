@@ -79,7 +79,6 @@ if DEBUG:
         }
     }
 else:
-
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
