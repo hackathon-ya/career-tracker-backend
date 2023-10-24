@@ -25,8 +25,3 @@ class CandidateAdmin(UserAdmin):
         "date_of_birth",
         "active",
     )
-
-
-
-
-
