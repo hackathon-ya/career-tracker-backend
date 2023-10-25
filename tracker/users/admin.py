@@ -18,6 +18,8 @@ class RecruiterAdmin(admin.ModelAdmin):
         ("Personal Info", {"fields": ("first_name", "last_name", "email")}),
         ("Company", {"fields": ("company", "company_inn")}),
     )
+    search_fields = ("username",)
+    empty_value_display = "-пусто-"
 
 
 @admin.register(Candidate)
@@ -43,6 +45,19 @@ class CandidateAdmin(admin.ModelAdmin):
         ("Contact Info", {"fields": ("mobile", "telegram")}),
         ("Permissions", {"fields": ("groups", "user_permissions")}),
     )
+    search_fields = (
+        "first_name",
+        "last_name",
+    )
+    list_filter = (
+        "active",
+        "form_of_employment",
+        "work_arrangement",
+        "education",
+        "education_YP",
+        "skills",
+    )
+    empty_value_display = "-пусто-"
 
 
 @admin.register(Favorites)
