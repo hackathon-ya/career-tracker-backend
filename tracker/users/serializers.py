@@ -13,6 +13,7 @@ from .models import Candidate
 
 
 class CandidateSerializer(serializers.ModelSerializer):
+
     class Meta:
         exclude = ('date_joined',)
         model = Candidate
