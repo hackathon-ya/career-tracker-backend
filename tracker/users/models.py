@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from core.models import (
     City,
@@ -14,7 +15,7 @@ from core.models import (
 class Recruiter(AbstractUser):
     """
     Рекрутер, основной пользователь, через которого осуществляется
-    авторизация и взаимодействие с вакансиями и соискателями
+    авторизация и взаимодействие с вакансиями и соискателями.
     """
 
     company = models.CharField(max_length=200)
@@ -30,37 +31,60 @@ class Recruiter(AbstractUser):
 
 class Candidate(AbstractUser):
     """
-    Соискатель, загружается в базу данных на основе данных из карьерного трекера
+    Соискатель, загружается в базу данных на основе данных из карьерного трекера.
     """
 
     city = models.ForeignKey(
         City,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="candidates",
         verbose_name="Город",
     )
-    date_of_birth = models.DateField(verbose_name="Дата рождения")
+    date_of_birth = models.DateField(
+        null=True, blank=True, verbose_name="Дата рождения"
+    )
     status_from_kt = models.ForeignKey(
         Status_from_kt,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="candidates",
         verbose_name="Статус в карьерном треке",
     )
     form_of_employment = models.ManyToManyField(
-        Forms_of_employment, related_name="candidate_employments", verbose_name="Тип занятости"
+        Forms_of_employment,
+        related_name="candidate_employments",
+        verbose_name="Тип занятости",
+        blank=True,
     )
     work_arrangement = models.ManyToManyField(
-        Work_arrangements, related_name="candidate_works", verbose_name="Формат работы"
+        Work_arrangements,
+        related_name="candidate_works",
+        verbose_name="Формат работы",
+        blank=True,
     )
-    active = models.BooleanField(verbose_name="Активный пользователь")
-    last_activity = models.DateTimeField(verbose_name="Был активен")
-    experience_months = models.IntegerField(verbose_name="Опыт работы")
+    active = models.BooleanField(
+        verbose_name="Активный пользователь",
+        null=True,
+        blank=True,
+    )
+    last_activity = models.DateTimeField(
+        verbose_name="Был активен",
+        null=True,
+        blank=True,
+    )
+    experience_months = models.IntegerField(
+        verbose_name="Опыт работы",
+        null=True,
+        blank=True,
+    )
     education = models.ForeignKey(
         Education,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="candidates",
         verbose_name="Образование",
     )
@@ -68,22 +92,50 @@ class Candidate(AbstractUser):
         Education_YP,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="candidates",
         verbose_name="Курс в Яндекс Практикуме",
     )
-    resume = models.FileField(upload_to="resumes/", verbose_name="Резюме")
-    skills = models.ManyToManyField(
-        Skills, related_name="candidate_skills", verbose_name="Навыки"
+    resume = models.FileField(
+        upload_to="resumes/",
+        verbose_name="Резюме",
+        null=True,
+        blank=True,
     )
-    mobile = models.CharField(max_length=16, verbose_name="Телефон")
-    telegram = models.CharField(max_length=255, verbose_name="Телеграм")
-    pub_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата размещения")
+    skills = models.ManyToManyField(
+        Skills,
+        related_name="candidate_skills",
+        verbose_name="Навыки",
+        blank=True,
+    )
+    mobile = models.CharField(
+        max_length=16,
+        verbose_name="Телефон",
+        null=True,
+        blank=True,
+    )
+    telegram = models.CharField(
+        max_length=255,
+        verbose_name="Телеграм",
+        null=True,
+        blank=True,
+    )
+    pub_date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата размещения",
+        null=True,
+        blank=True,
+    )
 
     groups = models.ManyToManyField(
-        Group, related_name='recruiter_groups', verbose_name="Группы"
+        Group,
+        related_name="candidate_groups",
+        blank=True,
     )
     user_permissions = models.ManyToManyField(
-        Permission, related_name='recruiter_user_permissions', verbose_name="Права пользователя"
+        Permission,
+        related_name="candidate_user_permissions",
+        blank=True,
     )
 
     def __str__(self):
@@ -96,7 +148,7 @@ class Candidate(AbstractUser):
 
 class Favorites(models.Model):
     """
-    Модель-посредник для добавления кандидатов в избранное к рекрутерам
+    Модель-посредник для добавления кандидатов в избранное к рекрутерам.
     """
 
     candidate = models.ForeignKey(
@@ -105,9 +157,28 @@ class Favorites(models.Model):
     recruiter = models.ForeignKey(
         Recruiter, on_delete=models.CASCADE, related_name="favorites"
     )
-    groups = models.ManyToManyField(
-        Group, related_name='candidate_groups', verbose_name="Группы"
+
+    class Meta:
+        verbose_name = "Избранное"
+        verbose_name_plural = "Избранное"
+
+
+class Ratings(models.Model):
+    """Рейтинг, который рекрутер выставляет кандидату."""
+
+    candidate = models.ForeignKey(
+        Candidate, on_delete=models.CASCADE, related_name="ratings"
     )
-    user_permissions = models.ManyToManyField(
-        Permission, related_name='candidate_user_permissions', verbose_name="Права пользователя"
+    recruiter = models.ForeignKey(
+        Recruiter, on_delete=models.CASCADE, related_name="ratings"
     )
+    rating = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1, message="Рейтинг должен быть не ниже 1"),
+            MaxValueValidator(5, message="Рейтинг может быть не больше 5"),
+        ]
+    )
+
+    class Meta:
+        verbose_name = "Рейтинг"
+        verbose_name_plural = "Рейтинг"
