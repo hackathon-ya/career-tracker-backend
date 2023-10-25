@@ -14,5 +14,5 @@ from .models import Candidate
 
 class CandidateSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = "__all__"
+        exclude = ('date_joined',)
         model = Candidate

@@ -1,4 +1,4 @@
-from rest_framework import filters, mixins, viewsets
+from rest_framework import mixins, viewsets
 
 from users.models import Candidate
 from users.serializers import CandidateSerializer
