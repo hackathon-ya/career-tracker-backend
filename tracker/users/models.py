@@ -158,6 +158,10 @@ class Favorites(models.Model):
         Recruiter, on_delete=models.CASCADE, related_name="favorites"
     )
 
+    class Meta:
+        verbose_name = "Избранное"
+        verbose_name_plural = "Избранное"
+
 
 class Ratings(models.Model):
     """Рейтинг, который рекрутер выставляет кандидату."""
@@ -174,3 +178,7 @@ class Ratings(models.Model):
             MaxValueValidator(5, message="Рейтинг может быть не больше 5"),
         ]
     )
+
+    class Meta:
+        verbose_name = "Рейтинг"
+        verbose_name_plural = "Рейтинг"
