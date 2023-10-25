@@ -196,16 +196,3 @@ class Ratings(models.Model):
     recruiter = models.ForeignKey(
         Recruiter, on_delete=models.CASCADE, related_name="ratings"
     )
-    rating = models.PositiveIntegerField(
-        validators=[
-            MinValueValidator(1, message="Рейтинг должен быть не ниже 1"),
-            MaxValueValidator(5, message="Рейтинг может быть не больше 5"),
-        ]
-    )
-<<<<<<< HEAD
-
-    class Meta:
-        verbose_name = "Рейтинг"
-        verbose_name_plural = "Рейтинг"
-=======
->>>>>>> bf0b6d5 (ratings added)
