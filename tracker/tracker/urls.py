@@ -8,6 +8,7 @@ from drf_spectacular.views import (
 
 apps_url_patterns = [
     # урлы приложений
+    path("", include("vacancies.urls")),
 ]
 
 api_schema_url_patterns = [
