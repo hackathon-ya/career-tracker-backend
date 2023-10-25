@@ -1,3 +1,15 @@
-from django.shortcuts import render
+from rest_framework import filters, mixins, viewsets
 
-# Create your views here.
+from users.models import Candidate
+from users.serializers import CandidateSerializer
+
+
+class ListRetrieveViewset(
+    mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
+):
+    pass
+
+
+class CandidateViewSet(ListRetrieveViewset):
+    queryset = Candidate.objects.all()
+    serializer_class = CandidateSerializer
