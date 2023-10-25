@@ -38,6 +38,7 @@ class Candidate(AbstractUser):
         City,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="candidates",
         verbose_name="Город",
     )
@@ -48,6 +49,7 @@ class Candidate(AbstractUser):
         Status_from_kt,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="candidates",
         verbose_name="Статус в карьерном треке",
     )
@@ -55,9 +57,13 @@ class Candidate(AbstractUser):
         Forms_of_employment,
         related_name="candidate_employments",
         verbose_name="Тип занятости",
+        blank=True,
     )
     work_arrangement = models.ManyToManyField(
-        Work_arrangements, related_name="candidate_works", verbose_name="Формат работы"
+        Work_arrangements,
+        related_name="candidate_works",
+        verbose_name="Формат работы",
+        blank=True,
     )
     active = models.BooleanField(
         verbose_name="Активный пользователь",
@@ -100,6 +106,7 @@ class Candidate(AbstractUser):
         Skills,
         related_name="candidate_skills",
         verbose_name="Навыки",
+        blank=True,
     )
     mobile = models.CharField(
         max_length=16,
@@ -120,9 +127,15 @@ class Candidate(AbstractUser):
         blank=True,
     )
 
-    groups = models.ManyToManyField(Group, related_name="candidate_groups")
+    groups = models.ManyToManyField(
+        Group,
+        related_name="candidate_groups",
+        blank=True,
+    )
     user_permissions = models.ManyToManyField(
-        Permission, related_name="candidate_user_permissions"
+        Permission,
+        related_name="candidate_user_permissions",
+        blank=True,
     )
 
     def __str__(self):
