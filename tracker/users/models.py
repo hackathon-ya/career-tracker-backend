@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from core.models import (
     City,
@@ -153,4 +154,10 @@ class Ratings(models.Model):
     )
     recruiter = models.ForeignKey(
         Recruiter, on_delete=models.CASCADE, related_name="ratings"
+    )
+    rating = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1, message="Рейтинг должен быть не ниже 1"),
+            MaxValueValidator(5, message="Рейтинг может быть не больше 5"),
+        ]
     )
