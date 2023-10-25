@@ -38,10 +38,7 @@ class Candidate(AbstractUser):
         City,
         on_delete=models.SET_NULL,
         null=True,
-<<<<<<< HEAD
         blank=True,
-=======
->>>>>>> bf0b6d5 (ratings added)
         related_name="candidates",
         verbose_name="Город",
     )
@@ -52,10 +49,7 @@ class Candidate(AbstractUser):
         Status_from_kt,
         on_delete=models.SET_NULL,
         null=True,
-<<<<<<< HEAD
         blank=True,
-=======
->>>>>>> bf0b6d5 (ratings added)
         related_name="candidates",
         verbose_name="Статус в карьерном треке",
     )
@@ -63,7 +57,6 @@ class Candidate(AbstractUser):
         Forms_of_employment,
         related_name="candidate_employments",
         verbose_name="Тип занятости",
-<<<<<<< HEAD
         blank=True,
     )
     work_arrangement = models.ManyToManyField(
@@ -71,11 +64,9 @@ class Candidate(AbstractUser):
         related_name="candidate_works",
         verbose_name="Формат работы",
         blank=True,
-=======
     )
     work_arrangement = models.ManyToManyField(
         Work_arrangements, related_name="candidate_works", verbose_name="Формат работы"
->>>>>>> bf0b6d5 (ratings added)
     )
     active = models.BooleanField(
         verbose_name="Активный пользователь",
@@ -118,10 +109,7 @@ class Candidate(AbstractUser):
         Skills,
         related_name="candidate_skills",
         verbose_name="Навыки",
-<<<<<<< HEAD
         blank=True,
-=======
->>>>>>> bf0b6d5 (ratings added)
     )
     mobile = models.CharField(
         max_length=16,
@@ -142,7 +130,7 @@ class Candidate(AbstractUser):
         blank=True,
     )
 
-<<<<<<< HEAD
+
     groups = models.ManyToManyField(
         Group,
         related_name="candidate_groups",
@@ -152,12 +140,6 @@ class Candidate(AbstractUser):
         Permission,
         related_name="candidate_user_permissions",
         blank=True,
-=======
-    groups = models.ManyToManyField(Group, related_name="candidate_groups")
-    user_permissions = models.ManyToManyField(
-        Permission, related_name="candidate_user_permissions"
->>>>>>> bf0b6d5 (ratings added)
-    )
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -179,13 +161,10 @@ class Favorites(models.Model):
         Recruiter, on_delete=models.CASCADE, related_name="favorites"
     )
 
-<<<<<<< HEAD
     class Meta:
         verbose_name = "Избранное"
         verbose_name_plural = "Избранное"
 
-=======
->>>>>>> bf0b6d5 (ratings added)
 
 class Ratings(models.Model):
     """Рейтинг, который рекрутер выставляет кандидату."""
