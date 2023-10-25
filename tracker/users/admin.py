@@ -32,6 +32,7 @@ class CandidateAdmin(admin.ModelAdmin):
         "date_of_birth",
         "active",
     )
+<<<<<<< HEAD
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         (
@@ -68,3 +69,5 @@ class FavoritesAdmin(admin.ModelAdmin):
 @admin.register(Ratings)
 class RatingsAdmin(admin.ModelAdmin):
     list_display = ("candidate", "recruiter", "rating")
+=======
+>>>>>>> 029f430 (add vacancy model)
