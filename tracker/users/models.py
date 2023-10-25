@@ -14,7 +14,7 @@ from core.models import (
 class Recruiter(AbstractUser):
     """
     Рекрутер, основной пользователь, через которого осуществляется
-    авторизация и взаимодействие с вакансиями и соискателями
+    авторизация и взаимодействие с вакансиями и соискателями.
     """
 
     company = models.CharField(max_length=200)
@@ -30,7 +30,7 @@ class Recruiter(AbstractUser):
 
 class Candidate(AbstractUser):
     """
-    Соискатель, загружается в базу данных на основе данных из карьерного трекера
+    Соискатель, загружается в базу данных на основе данных из карьерного трекера.
     """
 
     city = models.ForeignKey(
@@ -134,7 +134,7 @@ class Candidate(AbstractUser):
 
 class Favorites(models.Model):
     """
-    Модель-посредник для добавления кандидатов в избранное к рекрутерам
+    Модель-посредник для добавления кандидатов в избранное к рекрутерам.
     """
 
     candidate = models.ForeignKey(
@@ -142,4 +142,15 @@ class Favorites(models.Model):
     )
     recruiter = models.ForeignKey(
         Recruiter, on_delete=models.CASCADE, related_name="favorites"
+    )
+
+
+class Ratings(models.Model):
+    """Рейтинг, который рекрутер выставляет кандидату."""
+
+    candidate = models.ForeignKey(
+        Candidate, on_delete=models.CASCADE, related_name="ratings"
+    )
+    recruiter = models.ForeignKey(
+        Recruiter, on_delete=models.CASCADE, related_name="ratings"
     )
