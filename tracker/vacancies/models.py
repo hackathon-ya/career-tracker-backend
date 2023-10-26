@@ -29,6 +29,7 @@ class Vacancy(models.Model):
         Forms_of_employment,
         on_delete=models.SET_NULL,
         null=True,
+        related_name="vacancies",
         verbose_name="Тип занятости",
     )
     work_arrangement = models.ManyToManyField(
