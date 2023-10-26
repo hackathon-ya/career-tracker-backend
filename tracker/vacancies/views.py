@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import mixins, status, viewsets
 from rest_framework.response import Response
 
@@ -33,13 +34,22 @@ class MatchCandidateViewSet(viewsets.ViewSet):
                 {"error": "Vacancy not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        # Retrieve all candidates
-        candidates = Candidate.objects.all()
+        base_filter = Q()
+        if vacancy.form_of_employment is not None:
+            base_filter &= Q(form_of_employment=vacancy.form_of_employment)
+        if vacancy.city is not None:
+            base_filter &= Q(city=vacancy.city)
+        if vacancy.experience_month is not None:
+            base_filter &= Q(experience_months__gte=vacancy.experience_month)
+        if vacancy.work_arrangement.count() != 0:
+            base_filter &= Q(work_arrangement__in=vacancy.work_arrangement.all())
+
+        filtered_candidates = Candidate.objects.filter(base_filter)
 
         # Create a list to store data for each candidate
         data = []
 
-        for candidate in candidates:
+        for candidate in filtered_candidates:
             candidate_skills = candidate.skills.all()
             vacancy_skills = vacancy.skills.all()
             matching_skills = candidate_skills.filter(

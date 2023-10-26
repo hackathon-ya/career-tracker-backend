@@ -41,7 +41,7 @@ class CandidateAdmin(admin.ModelAdmin):
         ("Status", {"fields": ("status_from_kt", "active", "last_activity")}),
         ("Employment", {"fields": ("form_of_employment", "work_arrangement")}),
         ("Education", {"fields": ("education", "education_YP")}),
-        ("Skills", {"fields": ("skills",)}),
+        ("Skills", {"fields": ("skills", "experience_months")}),
         ("Contact Info", {"fields": ("mobile", "telegram")}),
         ("Permissions", {"fields": ("groups", "user_permissions")}),
     )
