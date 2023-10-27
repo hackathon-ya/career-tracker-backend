@@ -144,6 +144,7 @@ class Candidate(AbstractUser):
     class Meta:
         verbose_name = "Соискатель"
         verbose_name_plural = "Соискатели"
+        ordering = ["-pub_date"]
 
 
 class Favorites(models.Model):
@@ -161,6 +162,7 @@ class Favorites(models.Model):
     class Meta:
         verbose_name = "Избранное"
         verbose_name_plural = "Избранное"
+        unique_together = (("candidate", "recruiter"),)
 
 
 class Ratings(models.Model):

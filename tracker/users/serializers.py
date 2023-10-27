@@ -1,15 +1,10 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import Candidate
+from .models import Candidate, Favorites
 
 
-# class RecruiterSerializer(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = Recruiter
-#         fields = ('id', 'username', 'password')
-#         ref_name = 'ReadOnlyUsers'
-#         extra_kwargs = {'password': {'write_only': True}}
+recruiter = get_user_model().objects.get(id=1)
 
 
 class CandidateSerializer(serializers.ModelSerializer):
@@ -22,6 +17,7 @@ class CandidateSerializer(serializers.ModelSerializer):
     skills = serializers.StringRelatedField(many=True)
     pub_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     date_of_birth = serializers.DateField()
+    is_favorite = serializers.SerializerMethodField()
 
     class Meta:
         exclude = (
@@ -35,3 +31,8 @@ class CandidateSerializer(serializers.ModelSerializer):
             "is_staff",
         )
         model = Candidate
+
+    def get_is_favorite(self, obj):
+        if Favorites.objects.filter(candidate=obj, recruiter=recruiter).exists():
+            return True
+        return False
