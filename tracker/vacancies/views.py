@@ -1,6 +1,8 @@
 from django.db.models import Q
 from rest_framework import mixins, status, viewsets
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
 
 from users.models import Candidate
 from vacancies.models import Vacancy
@@ -23,8 +25,8 @@ class VacancyViewSet(viewsets.ModelViewSet):
     # TODO Добавить фильтр
 
 
-class MatchCandidateViewSet(viewsets.ViewSet):
-    def list(self, request, *args, **kwargs):
+class MatchCandidateViewSet(APIView):
+    def get(self, request, *args, **kwargs):
         pk = self.kwargs["pk"]
         try:
             # Retrieve the vacancy object based on the vacancy_id from the URL
