@@ -28,6 +28,7 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "rest_framework",
     "django_filters",
+    'corsheaders',
 ]
 
 LOCAL_APPS = [
@@ -39,6 +40,7 @@ LOCAL_APPS = [
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -67,7 +69,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "tracker.wsgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -146,3 +147,5 @@ SPECTACULAR_SETTINGS = {
 }
 
 AUTH_USER_MODEL = "users.Recruiter"
+
+CORS_ALLOW_ALL_ORIGINS = True
