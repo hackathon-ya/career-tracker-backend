@@ -23,7 +23,7 @@ services:
             retries: 5
 
     backend:
-        build: .
+        image: voyager1744/career-track-back:latest
         container_name: careertracker_backend
         restart: always
         command: >
@@ -43,7 +43,7 @@ services:
                 condition: service_healthy
 
     frontend:
-        image: c32109531c5f69e83c607a0c70eea4e323b426bd84880171a516560624d1c90f
+        image: voyager1744/career-track-front:latest
         container_name: careertracker_frontend
         volumes:
             - ../frontend:/front_career/result_build
