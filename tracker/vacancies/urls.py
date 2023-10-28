@@ -3,6 +3,8 @@ from rest_framework import routers
 
 from vacancies.views import MatchCandidateViewSet, VacancyViewSet
 
+app_name = 'vacancies'
+
 router = routers.DefaultRouter()
 router.register(r"vacancies", VacancyViewSet)
 

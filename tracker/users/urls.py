@@ -7,6 +7,8 @@ from users.views import (
     FavoritesViewSet,
 )
 
+app_name = 'users'
+
 router = routers.DefaultRouter()
 router.register(r"candidates", CandidateViewSet)
 router.register(r"favorites", FavoritesViewSet)
