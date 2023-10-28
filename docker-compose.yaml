@@ -43,13 +43,10 @@ services:
                 condition: service_healthy
 
     frontend:
-        image: e23ffd6a2dff8298eef01b21009b350f3781767fa43ab2ee6670d360e8c678b5
+        image: c32109531c5f69e83c607a0c70eea4e323b426bd84880171a516560624d1c90f
         container_name: careertracker_frontend
-        restart: always
-        ports:
-            -   "3000:5173"
-        depends_on:
-            - backend
+        volumes:
+            - ../frontend:/front_career/result_build
 
 
 
@@ -60,9 +57,9 @@ services:
         ports:
             -   "80:80"
         volumes:
-            - static_volume:/app/staticfiles
-            - ./default.conf:/etc/nginx/conf.d/default.conf
-#            - media_volume:/app/mediafiles
+            - static_volume:/var/html/staticfiles/
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ../frontend/:/var/html/frontend/
         depends_on:
             - backend
             - frontend
