@@ -3,11 +3,11 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from core.models import (
     City,
-    Status_from_kt,
-    Forms_of_employment,
-    Work_arrangements,
+    StatusFromKt,
+    FormsOfEmployment,
+    WorkArrangements,
     Education,
-    Education_YP,
+    EducationYp,
     Skills,
 )
 
@@ -52,7 +52,7 @@ class Candidate(AbstractUser):
         null=True, blank=True, verbose_name="Дата рождения"
     )
     status_from_kt = models.ForeignKey(
-        Status_from_kt,
+        StatusFromKt,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -60,13 +60,13 @@ class Candidate(AbstractUser):
         verbose_name="Статус в карьерном треке",
     )
     form_of_employment = models.ManyToManyField(
-        Forms_of_employment,
+        FormsOfEmployment,
         related_name="candidate_employments",
         verbose_name="Тип занятости",
         blank=True,
     )
     work_arrangement = models.ManyToManyField(
-        Work_arrangements,
+        WorkArrangements,
         related_name="candidate_works",
         verbose_name="Формат работы",
         blank=True,
@@ -95,7 +95,7 @@ class Candidate(AbstractUser):
         verbose_name="Образование",
     )
     education_YP = models.ForeignKey(
-        Education_YP,
+        EducationYp,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -141,6 +141,16 @@ class Candidate(AbstractUser):
     user_permissions = models.ManyToManyField(
         Permission,
         related_name="candidate_user_permissions",
+        blank=True,
+    )
+    min_salary = models.IntegerField(
+        verbose_name="Зарплата от",
+        null=True,
+        blank=True,
+    )
+    max_salary = models.IntegerField(
+        verbose_name="Зарплата до",
+        null=True,
         blank=True,
     )
 

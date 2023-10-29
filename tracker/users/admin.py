@@ -6,6 +6,7 @@ from .models import Recruiter, Candidate, Favorites, Ratings
 @admin.register(Recruiter)
 class RecruiterAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "username",
         "company",
         "company_inn",
@@ -40,7 +41,17 @@ class CandidateAdmin(admin.ModelAdmin):
             {"fields": ("first_name", "last_name", "email", "date_of_birth", "city")},
         ),
         ("Status", {"fields": ("status_from_kt", "active", "last_activity")}),
-        ("Employment", {"fields": ("form_of_employment", "work_arrangement")}),
+        (
+            "Employment",
+            {
+                "fields": (
+                    "form_of_employment",
+                    "work_arrangement",
+                    "min_salary",
+                    "max_salary",
+                )
+            },
+        ),
         ("Education", {"fields": ("education", "education_YP")}),
         ("Skills", {"fields": ("skills", "experience_months")}),
         ("Contact Info", {"fields": ("mobile", "telegram")}),
