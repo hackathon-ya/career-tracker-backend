@@ -53,15 +53,16 @@ class EndpointTestCase(TestCase):
 
     def test_get_create_endpoints(self):
         client = APIClient()
-        responses = []
-        responses.append(client.get(reverse("users:candidates-list")))
-        responses.append(client.get(reverse("users:candidates-detail", args=(1,))))
-        responses.append(client.get(reverse("vacancies:vacancy-list")))
-        responses.append(client.get(reverse("vacancies:vacancy-detail", args=(1,))))
-        responses.append(client.get(reverse("users:favorites-list")))
-        responses.append(client.get(reverse("users:favorites-detail", args=(1,))))
-        responses.append(client.post(reverse("users:favorite", args=(2,))))
-        responses.append(client.get(reverse("vacancies:search", args=(1,))))
+        responses = [
+            client.get(reverse("users:candidates-list")),
+            client.get(reverse("users:candidates-detail", args=(1,))),
+            client.get(reverse("vacancies:vacancy-list")),
+            client.get(reverse("vacancies:vacancy-detail", args=(1,))),
+            client.get(reverse("users:favorites-list")),
+            client.get(reverse("users:favorites-detail", args=(1,))),
+            client.post(reverse("users:favorite", args=(2,))),
+            client.get(reverse("vacancies:search", args=(1,))),
+        ]
 
         for response in responses:
             with self.subTest(response):
@@ -71,8 +72,9 @@ class EndpointTestCase(TestCase):
 
     def test_delete_endpoints(self):
         client = APIClient()
-        responses = []
-        responses.append(client.delete(reverse("users:favorite", args=(2,))))
+        responses = [
+            client.delete(reverse("users:favorite", args=(2,))),
+        ]
 
         for response in responses:
             with self.subTest(response):
