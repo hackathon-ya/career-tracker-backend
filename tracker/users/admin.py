@@ -34,6 +34,7 @@ class CandidateAdmin(admin.ModelAdmin):
     )
     fieldsets = (
         (None, {"fields": ("username", "password")}),
+        (None, {"fields": ("job_title",)}),
         (
             "Personal Info",
             {"fields": ("first_name", "last_name", "email", "date_of_birth", "city")},
