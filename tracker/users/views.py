@@ -28,20 +28,19 @@ class CandidateViewSet(ListRetrieveViewSet):
 
 class APIAddFavorite(APIView):
     def post(self, request, *args, **kwargs):
-        pk = self.kwargs['pk']
+        pk = self.kwargs["pk"]
         candidate = get_object_or_404(Candidate, pk=pk)
 
-        if not Favorites.objects.filter(candidate=candidate, recruiter=recruiter).exists():
+        if not Favorites.objects.filter(
+            candidate=candidate, recruiter=recruiter
+        ).exists():
             Favorites.objects.create(candidate=candidate, recruiter=recruiter)
 
-        serializer = CandidateSerializer(
-            candidate,
-            context={'request': request}
-        )
+        serializer = CandidateSerializer(candidate, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, *args, **kwargs):
-        pk = self.kwargs['pk']
+        pk = self.kwargs["pk"]
         candidate = get_object_or_404(Candidate, pk=pk)
 
         if Favorites.objects.filter(candidate=candidate, recruiter=recruiter).exists():
