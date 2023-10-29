@@ -4,7 +4,7 @@ from django.db import models
 class City(models.Model):
     """Город."""
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -14,10 +14,10 @@ class City(models.Model):
         verbose_name_plural = "Города"
 
 
-class Status_from_kt(models.Model):
+class StatusFromKt(models.Model):
     """Статус в карьерном треке."""
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -27,10 +27,10 @@ class Status_from_kt(models.Model):
         verbose_name_plural = "Статусы в карьерном треке"
 
 
-class Forms_of_employment(models.Model):
+class FormsOfEmployment(models.Model):
     """Тип занятости."""
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -40,10 +40,10 @@ class Forms_of_employment(models.Model):
         verbose_name_plural = "Типы занятости"
 
 
-class Work_arrangements(models.Model):
+class WorkArrangements(models.Model):
     """Формат работы."""
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -56,7 +56,7 @@ class Work_arrangements(models.Model):
 class Education(models.Model):
     """Образование."""
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -66,10 +66,10 @@ class Education(models.Model):
         verbose_name_plural = "Образования"
 
 
-class Education_YP(models.Model):
+class EducationYp(models.Model):
     """Курс в Яндекс Практикуме."""
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -82,7 +82,7 @@ class Education_YP(models.Model):
 class Skills(models.Model):
     """Навыки."""
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.name

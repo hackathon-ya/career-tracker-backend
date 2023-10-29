@@ -4,9 +4,6 @@ from rest_framework import serializers
 from .models import Candidate, Favorites
 
 
-recruiter = get_user_model().objects.get(id=1)
-
-
 class CandidateSerializer(serializers.ModelSerializer):
     city = serializers.StringRelatedField()
     status_from_kt = serializers.StringRelatedField()
@@ -33,6 +30,13 @@ class CandidateSerializer(serializers.ModelSerializer):
         model = Candidate
 
     def get_is_favorite(self, obj):
+        recruiter = get_user_model().objects.first()
         if Favorites.objects.filter(candidate=obj, recruiter=recruiter).exists():
             return True
         return False
+
+    def to_representation(self, instance):
+        recruiter = get_user_model().objects.first()
+        representation = super().to_representation(instance)
+        representation["recruiter"] = recruiter.username if recruiter else None
+        return representation

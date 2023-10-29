@@ -6,6 +6,7 @@ from .models import Recruiter, Candidate, Favorites, Ratings
 @admin.register(Recruiter)
 class RecruiterAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "username",
         "company",
         "company_inn",
