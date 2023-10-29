@@ -34,6 +34,12 @@ class Candidate(AbstractUser):
     Соискатель, загружается в базу данных на основе данных из карьерного трекера.
     """
 
+    job_title = models.CharField(
+        max_length=200,
+        verbose_name="Название должности",
+        null=True,
+        blank=True,
+    )
     city = models.ForeignKey(
         City,
         on_delete=models.SET_NULL,

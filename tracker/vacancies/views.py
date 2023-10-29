@@ -1,5 +1,5 @@
 from django.db.models import Q
-from rest_framework import mixins, status, viewsets
+from rest_framework import filters, mixins, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -23,6 +23,9 @@ class ListRetrieveViewSet(
 class VacancyViewSet(viewsets.ModelViewSet):
     queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ("^job_title",)
+    
 
     def perform_create(self, serializer):
         # Получение или создание объектов City, FormsOfEmployment, WorkArrangements

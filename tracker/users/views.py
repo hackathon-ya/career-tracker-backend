@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import mixins, status, viewsets
+from rest_framework import filters, mixins, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -19,8 +19,12 @@ class ListRetrieveViewSet(
 class CandidateViewSet(ListRetrieveViewSet):
     queryset = Candidate.objects.all()
     serializer_class = CandidateSerializer
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (
+        DjangoFilterBackend,
+        filters.SearchFilter,
+    )
     filterset_class = CandidateFilter
+    search_fields = ("^job_title",)
 
 
 class APIAddFavorite(APIView):
