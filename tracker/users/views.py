@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import mixins, status, viewsets
+from rest_framework import filters, mixins, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -22,26 +22,29 @@ class ListRetrieveViewSet(
 class CandidateViewSet(ListRetrieveViewSet):
     queryset = Candidate.objects.all()
     serializer_class = CandidateSerializer
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (
+        DjangoFilterBackend,
+        filters.SearchFilter,
+    )
     filterset_class = CandidateFilter
+    search_fields = ("^job_title",)
 
 
 class APIAddFavorite(APIView):
     def post(self, request, *args, **kwargs):
-        pk = self.kwargs['pk']
+        pk = self.kwargs["pk"]
         candidate = get_object_or_404(Candidate, pk=pk)
 
-        if not Favorites.objects.filter(candidate=candidate, recruiter=recruiter).exists():
+        if not Favorites.objects.filter(
+            candidate=candidate, recruiter=recruiter
+        ).exists():
             Favorites.objects.create(candidate=candidate, recruiter=recruiter)
 
-        serializer = CandidateSerializer(
-            candidate,
-            context={'request': request}
-        )
+        serializer = CandidateSerializer(candidate, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, *args, **kwargs):
-        pk = self.kwargs['pk']
+        pk = self.kwargs["pk"]
         candidate = get_object_or_404(Candidate, pk=pk)
 
         if Favorites.objects.filter(candidate=candidate, recruiter=recruiter).exists():

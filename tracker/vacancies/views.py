@@ -1,5 +1,5 @@
 from django.db.models import Q
-from rest_framework import mixins, status, viewsets
+from rest_framework import filters, mixins, status, viewsets
 from rest_framework.response import Response
 
 from users.models import Candidate
@@ -20,6 +20,8 @@ class ListRetrieveViewSet(
 class VacancyViewSet(viewsets.ModelViewSet):
     queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ("^job_title",)
     # TODO Добавить фильтр
 
 
