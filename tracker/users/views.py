@@ -10,9 +10,6 @@ from users.models import Candidate, Favorites
 from users.serializers import CandidateSerializer
 
 
-recruiter = get_user_model().objects.get(id=1)
-
-
 class ListRetrieveViewSet(
     mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
 ):
@@ -30,6 +27,7 @@ class APIAddFavorite(APIView):
     def post(self, request, *args, **kwargs):
         pk = self.kwargs["pk"]
         candidate = get_object_or_404(Candidate, pk=pk)
+        recruiter = get_user_model().objects.first()
 
         if not Favorites.objects.filter(
             candidate=candidate, recruiter=recruiter
@@ -42,6 +40,7 @@ class APIAddFavorite(APIView):
     def delete(self, request, *args, **kwargs):
         pk = self.kwargs["pk"]
         candidate = get_object_or_404(Candidate, pk=pk)
+        recruiter = get_user_model().objects.first()
 
         if Favorites.objects.filter(candidate=candidate, recruiter=recruiter).exists():
             Favorites.objects.get(candidate=candidate, recruiter=recruiter).delete()
@@ -50,7 +49,15 @@ class APIAddFavorite(APIView):
 
 
 class FavoritesViewSet(ListRetrieveViewSet):
-    queryset = Candidate.objects.filter(favorited_by__recruiter=recruiter)
     serializer_class = CandidateSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = CandidateFilter
+    queryset = Candidate.objects.all()
+
+    def get_queryset(self):
+        recruiter = get_user_model().objects.first()
+
+        if recruiter:
+            return Candidate.objects.filter(favorited_by__recruiter=recruiter)
+
+        return Candidate.objects.none()

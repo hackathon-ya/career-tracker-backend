@@ -2,11 +2,11 @@ from django.contrib import admin
 
 from .models import (
     City,
-    Status_from_kt,
-    Forms_of_employment,
-    Work_arrangements,
+    StatusFromKt,
+    FormsOfEmployment,
+    WorkArrangements,
     Education,
-    Education_YP,
+    EducationYp,
     Skills,
 )
 
@@ -16,17 +16,17 @@ class CityAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
 
-@admin.register(Status_from_kt)
+@admin.register(StatusFromKt)
 class Status_from_ktAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
 
-@admin.register(Forms_of_employment)
+@admin.register(FormsOfEmployment)
 class Forms_of_employmentAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
 
-@admin.register(Work_arrangements)
+@admin.register(WorkArrangements)
 class Work_arrangementsAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
@@ -36,7 +36,7 @@ class EducationAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
 
-@admin.register(Education_YP)
+@admin.register(EducationYp)
 class EEducation_YPAdmin(admin.ModelAdmin):
     list_display = ("name",)
 

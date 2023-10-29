@@ -4,12 +4,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
+from core.models import City, FormsOfEmployment, WorkArrangements, Skills
 from users.models import Candidate
 from vacancies.models import Vacancy
 from vacancies.serializers import (
     MatchCandidateSerializer,
     VacancySerializer,
-    SkillSerializer,
+    SkillsSerializer,
 )
 
 
@@ -22,7 +23,35 @@ class ListRetrieveViewSet(
 class VacancyViewSet(viewsets.ModelViewSet):
     queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
-    # TODO Добавить фильтр
+
+    def perform_create(self, serializer):
+        # Получение или создание объектов City, FormsOfEmployment, WorkArrangements
+        city, _ = City.objects.get_or_create(name=self.request.data.get("city"))
+        skills = (
+            Skills.objects.get_or_create(name=name)
+            for name in self.request.data.get("skills", [])
+        )
+        form_of_employment, _ = FormsOfEmployment.objects.get_or_create(
+            name=self.request.data.get("form_of_employment")
+        )
+        work_arrangements = (
+            WorkArrangements.objects.get_or_create(name=name)
+            for name in self.request.data.get("work_arrangement", [])
+        )
+
+        # Сохранение объектов вакансии
+        instance = serializer.save(city=city, form_of_employment=form_of_employment)
+        instance.work_arrangement.set(work_arrangements)
+        instance.skills.set(skills)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
 
 class MatchCandidateViewSet(APIView):
@@ -57,9 +86,12 @@ class MatchCandidateViewSet(APIView):
             matching_skills = candidate_skills.filter(
                 id__in=vacancy_skills.values_list("id", flat=True)
             )
-            percent = (matching_skills.count() / vacancy_skills.count()) * 100
+            if vacancy_skills.count() > 0:
+                percent = (matching_skills.count() / vacancy_skills.count()) * 100
+            else:
+                percent = 0
 
-            matching_skills_data = SkillSerializer(matching_skills, many=True).data
+            matching_skills_data = SkillsSerializer(matching_skills, many=True).data
 
             data.append(
                 {
