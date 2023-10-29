@@ -137,6 +137,16 @@ class Candidate(AbstractUser):
         related_name="candidate_user_permissions",
         blank=True,
     )
+    min_salary = models.IntegerField(
+        verbose_name="Зарплата от",
+        null=True,
+        blank=True,
+    )
+    max_salary = models.IntegerField(
+        verbose_name="Зарплата до",
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
