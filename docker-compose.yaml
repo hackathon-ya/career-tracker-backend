@@ -1,0 +1,65 @@
+version: "3.9"
+
+volumes:
+    postgres_data:
+    static_volume:
+#    media_volume:
+
+services:
+    db:
+        image: postgres:15.3
+        container_name: careertracker_db
+        restart: always
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        env_file:
+            -   .env
+        ports:
+            -   "${POSTGRES_PORT}:5432"
+        healthcheck:
+            test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'" ]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+    backend:
+        image: voyager1744/career-track-back:latest
+        container_name: careertracker_backend
+        restart: always
+        command: >
+            sh -c "python manage.py migrate &&
+                   python manage.py collectstatic --noinput &&
+                   gunicorn tracker.wsgi:application --bind 0.0.0.0:8000"
+
+        volumes:
+            - static_volume:/app/staticfiles
+#            - media_volume:/app/mediafiles
+        env_file:
+            -   .env
+        ports:
+            -   "8000:8000"
+        depends_on:
+            db:
+                condition: service_healthy
+
+    frontend:
+        image: voyager1744/career-track-front:latest
+        container_name: careertracker_frontend
+        volumes:
+            - ../frontend:/front_career/result_build
+
+
+
+    nginx:
+        image: nginx:1.19.3
+        container_name: careertracker_nginx
+        restart: always
+        ports:
+            -   "80:80"
+        volumes:
+            - static_volume:/var/html/staticfiles/
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ../frontend/:/var/html/frontend/
+        depends_on:
+            - backend
+            - frontend
