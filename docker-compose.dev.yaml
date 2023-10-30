@@ -1,0 +1,43 @@
+version: "3.9"
+
+volumes:
+    postgres_data:
+    static_volume:
+
+services:
+    db:
+        image: postgres:15.3
+        container_name: careertracker_db
+        restart: always
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        env_file:
+            -   .env
+        ports:
+            -   "${POSTGRES_PORT}:5432"
+        healthcheck:
+            test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'" ]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+    backend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: careertracker_backend
+        restart: always
+        command: >
+            sh -c "python manage.py migrate &&
+                   python manage.py runserver 0.0.0.0:8000"
+
+        volumes:
+            - static_volume:/app/staticfiles
+#            - media_volume:/app/mediafiles
+        env_file:
+            -   .env
+        ports:
+            -   "8000:8000"
+        depends_on:
+            db:
+                condition: service_healthy
