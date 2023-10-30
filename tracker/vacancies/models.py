@@ -1,6 +1,6 @@
+from core.models import City, Education, FormsOfEmployment, Skills, WorkArrangements
 from django.contrib.auth import get_user_model
 from django.db import models
-from core.models import City, Skills, FormsOfEmployment, WorkArrangements, Education
 
 
 class Vacancy(models.Model):

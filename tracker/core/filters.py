@@ -1,6 +1,5 @@
-from django_filters import rest_framework as django_filters
-
 from core.models import Skills
+from django_filters import rest_framework as django_filters
 from users.models import Candidate
 
 

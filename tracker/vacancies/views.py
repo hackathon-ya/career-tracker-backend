@@ -1,16 +1,14 @@
+from core.models import City, FormsOfEmployment, Skills, WorkArrangements
 from django.db.models import Q
 from rest_framework import filters, mixins, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-
-from core.models import City, FormsOfEmployment, WorkArrangements, Skills
 from users.models import Candidate
 from vacancies.models import Vacancy
 from vacancies.serializers import (
     MatchCandidateSerializer,
-    VacancySerializer,
     SkillsSerializer,
+    VacancySerializer,
 )
 
 
@@ -25,7 +23,6 @@ class VacancyViewSet(viewsets.ModelViewSet):
     serializer_class = VacancySerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ("^job_title",)
-    
 
     def perform_create(self, serializer):
         # Получение или создание объектов City, FormsOfEmployment, WorkArrangements

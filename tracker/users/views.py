@@ -1,11 +1,10 @@
+from core.filters import CandidateFilter
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, mixins, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from core.filters import CandidateFilter
 from users.models import Candidate, Favorites
 from users.serializers import CandidateSerializer
 

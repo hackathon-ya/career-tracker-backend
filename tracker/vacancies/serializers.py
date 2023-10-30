@@ -1,7 +1,6 @@
+from core.models import City, Education, FormsOfEmployment, Skills, WorkArrangements
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-
-from core.models import Skills, City, FormsOfEmployment, WorkArrangements, Education
 from users.serializers import CandidateSerializer
 from vacancies.models import Vacancy
 

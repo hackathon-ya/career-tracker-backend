@@ -1,13 +1,12 @@
+from core.models import City, Forms_of_employment, Work_arrangements
 from django.test import TestCase
 from django.urls import reverse
 from faker import Faker
 from rest_framework.test import APIClient, APIRequestFactory
-
-from core.models import City, Forms_of_employment, Work_arrangements
 from users.models import Candidate, Favorites, Recruiter
 from users.views import CandidateViewSet
-from vacancies.views import MatchCandidateViewSet
 from vacancies.models import Vacancy
+from vacancies.views import MatchCandidateViewSet
 
 fake = Faker()
 

@@ -1,11 +1,6 @@
 from django.urls import include, path
 from rest_framework import routers
-
-from users.views import (
-    APIAddFavorite,
-    CandidateViewSet,
-    FavoritesViewSet,
-)
+from users.views import APIAddFavorite, CandidateViewSet, FavoritesViewSet
 
 app_name = "users"
 

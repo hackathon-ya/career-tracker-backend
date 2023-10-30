@@ -1,10 +1,9 @@
+from core.models import City, Forms_of_employment, Work_arrangements
 from django.test import TestCase
 from django.urls import reverse
-from rest_framework.test import APIClient
-from rest_framework import status
 from faker import Faker
-
-from core.models import City, Forms_of_employment, Work_arrangements
+from rest_framework import status
+from rest_framework.test import APIClient
 from users.models import Candidate, Favorites, Recruiter
 from vacancies.models import Vacancy
 
