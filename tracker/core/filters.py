@@ -9,7 +9,6 @@ class AndFilter(django_filters.ModelMultipleChoiceFilter):
 
     def __init__(self, *args, **kwargs):
         super(AndFilter, self).__init__(*args, **kwargs)
-        # Set self.conjoined to True to change the filter logic to AND
         self.conjoined = True
 
 

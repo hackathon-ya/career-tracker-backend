@@ -89,10 +89,8 @@ class VacancySerializer(serializers.ModelSerializer):
         work_arrangement_data = validated_data.pop("work_arrangement", [])
         education_data = validated_data.pop("education", None)
 
-        # Создаем объект Vacancy без вложенных полей
         vacancy = Vacancy.objects.create(**validated_data)
 
-        # Создаем связанные объекты, если они предоставлены в данных
         skills_serializer = SkillsSerializer(data=skills_data, many=True)
         if skills_serializer.is_valid():
             skills = [
