@@ -61,7 +61,6 @@ class MatchCandidateViewSet(APIView):
     def get(self, request, *args, **kwargs):
         pk = self.kwargs["pk"]
         try:
-            # Retrieve the vacancy object based on the vacancy_id from the URL
             vacancy = Vacancy.objects.get(pk=pk)
         except Vacancy.DoesNotExist:
             return Response(
@@ -80,7 +79,6 @@ class MatchCandidateViewSet(APIView):
 
         filtered_candidates = Candidate.objects.filter(base_filter)
 
-        # Create a list to store data for each candidate
         data = []
 
         for candidate in filtered_candidates:
@@ -105,10 +103,8 @@ class MatchCandidateViewSet(APIView):
                 }
             )
 
-        # Sort the data by decreasing matching_skills_percent
         data.sort(key=lambda x: x["matching_skills_percent"], reverse=True)
 
-        # Serialize the data using the CandidateMatchSerializer
         serializer = MatchCandidateSerializer(data, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
