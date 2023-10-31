@@ -1,16 +1,14 @@
+from core.models import City, FormsOfEmployment, Skills, WorkArrangements
 from django.db.models import Q
 from rest_framework import filters, mixins, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-
-from core.models import City, FormsOfEmployment, WorkArrangements, Skills
 from users.models import Candidate
 from vacancies.models import Vacancy
 from vacancies.serializers import (
     MatchCandidateSerializer,
-    VacancySerializer,
     SkillsSerializer,
+    VacancySerializer,
 )
 
 
@@ -25,7 +23,6 @@ class VacancyViewSet(viewsets.ModelViewSet):
     serializer_class = VacancySerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ("^job_title",)
-    
 
     def perform_create(self, serializer):
         # Получение или создание объектов City, FormsOfEmployment, WorkArrangements
@@ -61,7 +58,6 @@ class MatchCandidateViewSet(APIView):
     def get(self, request, *args, **kwargs):
         pk = self.kwargs["pk"]
         try:
-            # Retrieve the vacancy object based on the vacancy_id from the URL
             vacancy = Vacancy.objects.get(pk=pk)
         except Vacancy.DoesNotExist:
             return Response(
@@ -80,7 +76,6 @@ class MatchCandidateViewSet(APIView):
 
         filtered_candidates = Candidate.objects.filter(base_filter)
 
-        # Create a list to store data for each candidate
         data = []
 
         for candidate in filtered_candidates:
@@ -105,10 +100,8 @@ class MatchCandidateViewSet(APIView):
                 }
             )
 
-        # Sort the data by decreasing matching_skills_percent
         data.sort(key=lambda x: x["matching_skills_percent"], reverse=True)
 
-        # Serialize the data using the CandidateMatchSerializer
         serializer = MatchCandidateSerializer(data, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)

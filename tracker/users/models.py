@@ -1,15 +1,15 @@
-from django.contrib.auth.models import AbstractUser, Group, Permission
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.db import models
 from core.models import (
     City,
-    StatusFromKt,
-    FormsOfEmployment,
-    WorkArrangements,
     Education,
     EducationYp,
+    FormsOfEmployment,
     Skills,
+    StatusFromKt,
+    WorkArrangements,
 )
+from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 
 
 class Recruiter(AbstractUser):

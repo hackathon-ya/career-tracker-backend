@@ -1,7 +1,6 @@
+from core.models import City, Forms_of_employment, Work_arrangements
 from django.test import TestCase
 from faker import Faker
-
-from core.models import City, Forms_of_employment, Work_arrangements
 from users.models import Candidate, Favorites, Recruiter
 from vacancies.models import Vacancy
 

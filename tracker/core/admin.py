@@ -2,12 +2,12 @@ from django.contrib import admin
 
 from .models import (
     City,
-    StatusFromKt,
-    FormsOfEmployment,
-    WorkArrangements,
     Education,
     EducationYp,
+    FormsOfEmployment,
     Skills,
+    StatusFromKt,
+    WorkArrangements,
 )
 
 

@@ -1,7 +1,6 @@
+from core.models import City, Education, FormsOfEmployment, Skills, WorkArrangements
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-
-from core.models import Skills, City, FormsOfEmployment, WorkArrangements, Education
 from users.serializers import CandidateSerializer
 from vacancies.models import Vacancy
 
@@ -89,10 +88,8 @@ class VacancySerializer(serializers.ModelSerializer):
         work_arrangement_data = validated_data.pop("work_arrangement", [])
         education_data = validated_data.pop("education", None)
 
-        # Создаем объект Vacancy без вложенных полей
         vacancy = Vacancy.objects.create(**validated_data)
 
-        # Создаем связанные объекты, если они предоставлены в данных
         skills_serializer = SkillsSerializer(data=skills_data, many=True)
         if skills_serializer.is_valid():
             skills = [

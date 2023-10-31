@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Recruiter, Candidate, Favorites, Ratings
+from .models import Candidate, Favorites, Ratings, Recruiter
 
 
 @admin.register(Recruiter)
