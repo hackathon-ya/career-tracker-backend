@@ -15,6 +15,7 @@
 Стэк технологий: Python, Django, DRF
 
 Архив кода https://drive.google.com/file/d/1M6M7N342aZ1T4UDNagAavCHjmvZpBY2H/view?usp=drive_link
+
 Скриншоты БД и Swagger: https://drive.google.com/file/d/1e6V0pRiEel2VOixIgw2EnPDQhoBlKrjN/view?usp=drive_link
 
 ### Документация API
