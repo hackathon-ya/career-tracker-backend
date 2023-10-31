@@ -14,6 +14,8 @@
 
 Стэк технологий: Python, Django, DRF
 
+Архив https://drive.google.com/file/d/1M6M7N342aZ1T4UDNagAavCHjmvZpBY2H/view?usp=drive_link
+
 ### Документация API
 В проекте реализована автоматическая генерация документации. Документация доступна по адресам:
 1) Swagger: `/api/v1/schema/swagger-ui/`
